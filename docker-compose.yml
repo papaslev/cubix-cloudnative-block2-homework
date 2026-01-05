@@ -1,41 +1,17 @@
 services:
   backapp:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        APP_DIR: backapp
-        OWNER: "Levente Pápes"
     image: cubix-backapp:hw
     environment:
       CUBIX_HOMEWORK: "Levente Pápes"
       APP_DEFAULT_MESSAGE: ""
-      SERVER_PORT: "8081"
-    networks:
-      - internal_net
+    expose:
+      - "8080"
 
   frontapp:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        APP_DIR: frontapp
-        OWNER: "Levente Pápes"
     image: cubix-frontapp:hw
-    depends_on:
-      - backapp
     environment:
       CUBIX_HOMEWORK: "Levente Pápes"
       APP_DEFAULT_MESSAGE: ""
-      BACK_URL: "http://backapp:8081"
-      SERVER_PORT: "8080"
+      BACK_URL: "http://backapp:8080"
     ports:
       - "8080:8080"
-    networks:
-      - internal_net
-      - public_net
-
-networks:
-  internal_net:
-    internal: true
-  public_net: {}
